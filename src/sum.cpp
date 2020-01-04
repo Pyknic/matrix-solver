@@ -82,13 +82,6 @@ Symbol *Sum::operator/(Symbol *other) {
     throw InvalidExpression(); // TODO: Not yet implemented.
 }
 
-bool Sum::isNegative(const std::map<std::string, Symbol*>& unknowns) const {
-    for (auto & term : mTerms) {
-        if (!term->isNegative(unknowns)) return false;
-    }
-    return true;
-}
-
 bool Sum::isConstant() const {
     for (auto & term : mTerms) {
         if (!term->isConstant()) return false;
@@ -126,4 +119,18 @@ Sum::~Sum() {
     for (auto & term : mTerms) {
         delete term;
     }
+}
+
+std::string Sum::format(const Formatter &formatter) const {
+    if (mTerms.size() <= 1) throw InvalidExpression();
+
+    std::string str = formatter.times(
+        mTerms[0]->format(formatter),
+        mTerms[1]->format(formatter));
+
+    for (Terms::size_type i = 2; i < mTerms.size(); i++) {
+        str = formatter.times(str, mTerms[i]->format(formatter));
+    }
+
+    return formatter.paranthesis(str);
 }

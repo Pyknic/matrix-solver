@@ -25,7 +25,7 @@ public:
 
     Symbol *operator/(Symbol *other) override;
 
-    bool isNegative(const std::map<std::string, Symbol*>& unknowns) const override;
+    std::string format(const Formatter &formatter) const override;
 
     bool isConstant() const override;
 

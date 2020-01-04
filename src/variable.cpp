@@ -261,3 +261,15 @@ std::set<std::string> Variable::findUndefined() {
     set.insert(mName);
     return set;
 }
+
+std::string Variable::format(const Formatter &formatter) const {
+    Constant quantityConstant {mQuantity};
+    Constant exponentConstant {mExponent};
+    return formatter.power(
+        formatter.times(
+            formatter.constant(&quantityConstant),
+            formatter.unknown(mName)
+        ),
+        formatter.constant(&exponentConstant)
+    );
+}

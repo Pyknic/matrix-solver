@@ -5,27 +5,29 @@
 #pragma once
 
 #include <string>
-#include "constant.hpp"
+#include <sstream>
+
+class Constant;
 
 class Formatter {
 public:
-    virtual ~Formatter() = 0;
+    virtual ~Formatter() = default;
 
-    virtual std::stringstream format(const Constant* constant) const = 0;
+    virtual std::string constant(const Constant *constant) const = 0;
 
-    virtual std::stringstream unknown(const std::string& unknown) const = 0;
+    virtual std::string unknown(const std::string &unknown) const = 0;
 
-    virtual std::stringstream paranthesis(const std::stringstream& middle) const = 0;
+    virtual std::string paranthesis(const std::string &middle) const = 0;
 
-    virtual std::stringstream plus(const std::stringstream& left, const std::stringstream& right) const = 0;
+    virtual std::string plus(const std::string &left, const std::string &right) const = 0;
 
-    virtual std::stringstream minus(const std::stringstream& left, const std::stringstream& right) const = 0;
+    virtual std::string minus(const std::string &left, const std::string &right) const = 0;
 
-    virtual std::stringstream times(const std::stringstream& left, const std::stringstream& right) const = 0;
+    virtual std::string times(const std::string &left, const std::string &right) const = 0;
 
-    virtual std::stringstream divide(const std::stringstream& top, const std::stringstream& left) const = 0;
+    virtual std::string divide(const std::string &top, const std::string &bottom) const = 0;
 
-    virtual std::stringstream power(const std::stringstream& left, const std::stringstream& right) const = 0;
+    virtual std::string power(const std::string &left, const std::string &right) const = 0;
 };
 
 

@@ -137,4 +137,8 @@ Symbol *Constant::copy() const {
     return new Constant(mValue);
 }
 
+std::string Constant::format(const Formatter &formatter) const {
+    return formatter.constant(this);
+}
+
 Constant::~Constant() = default;

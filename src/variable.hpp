@@ -31,6 +31,8 @@ public:
 
     Symbol *operator/(Symbol *other) override;
 
+    std::string format(const Formatter &formatter) const override;
+
     bool isConstant() const override;
 
     int getColumns() const override;

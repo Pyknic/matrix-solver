@@ -7,12 +7,13 @@
 #include <set>
 #include <string>
 #include <map>
+#include "formatter.hpp"
 
 class Symbol {
 public:
     typedef float value_t;
 
-    virtual ~Symbol() = 0;
+    virtual ~Symbol() = default;
 
     virtual Symbol* copy() const = 0;
 
@@ -33,6 +34,8 @@ public:
     virtual Symbol* operator*(value_t other);
 
     virtual Symbol* operator/(value_t other);
+
+    virtual std::string format(const Formatter& formatter) const = 0;
 
     virtual bool isConstant() const = 0;
 

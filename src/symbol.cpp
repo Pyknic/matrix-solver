@@ -18,5 +18,17 @@ Symbol* Symbol::assertNotNull(Symbol* symbol) const {
 }
 
 Symbol *Symbol::operator+(Symbol::value_t other) {
-    return *this + new Constant(other);
+    return *this + new Constant{other};
+}
+
+Symbol *Symbol::operator-(Symbol::value_t other) {
+    return *this - new Constant{other};
+}
+
+Symbol *Symbol::operator*(Symbol::value_t other) {
+    return *this * new Constant{other};
+}
+
+Symbol *Symbol::operator/(Symbol::value_t other) {
+    return *this / new Constant{other};
 }
