@@ -167,11 +167,34 @@ bool Sum::isZero() const {
 }
 
 int Sum::getColumns() const {
-    return mTerms[0]->getColumns();
+    int cols, rows;
+    getDimensions(cols, rows);
+    return cols;
 }
 
 int Sum::getRows() const {
-    return mTerms[0]->getRows();
+    int cols, rows;
+    getDimensions(cols, rows);
+    return rows;
+}
+
+void Sum::getDimensions(int &cols, int &rows) const {
+    cols = 1;
+    rows = 1;
+    for (auto& term : mTerms) {
+        if (!term->isScalar()) {
+            int termCols = term->getColumns();
+            int termRows = term->getRows();
+
+            if ((cols == 1 && rows == 1)
+            || ((cols == termCols) && (rows == termRows))) {
+                cols = termCols;
+                rows = termRows;
+            } else {
+                throw InvalidExpression(); // Dimensions does not match
+            }
+        }
+    }
 }
 
 std::set<std::string> Sum::findUndefined() {

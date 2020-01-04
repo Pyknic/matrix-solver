@@ -38,6 +38,8 @@ public:
     std::set<std::string> findUndefined() override;
 
 private:
+    void getDimensions(int& cols, int& rows) const;
+
     typedef std::vector<Symbol*> Terms;
     explicit Sum(Terms  terms);
 
