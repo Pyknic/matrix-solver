@@ -273,3 +273,7 @@ std::string Variable::format(const Formatter &formatter) const {
         formatter.constant(&exponentConstant)
     );
 }
+
+bool Variable::isZero() const {
+    return mQuantity == 0;
+}

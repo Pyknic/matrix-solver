@@ -44,7 +44,7 @@ public:
 
     bool isOne() const;
 
-    bool isZero() const;
+    bool isZero() const override;
 
     bool isMinusOne() const;
 

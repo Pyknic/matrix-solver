@@ -9,7 +9,12 @@
 LatexFormatter::~LatexFormatter() = default;
 
 std::string LatexFormatter::constant(const Constant *constant) const {
-    return std::to_string(constant->getValue());
+    std::ostringstream ss;
+    ss << constant->getValue();
+    std::string s(ss.str());
+    return s;
+
+    //return std::to_string(constant->getValue());
 }
 
 std::string LatexFormatter::unknown(const std::string &unknown) const {
@@ -38,7 +43,7 @@ std::string LatexFormatter::minus(const std::string &left,
 
 std::string LatexFormatter::times(const std::string &left,
                                   const std::string &right) const {
-    return left + " \\cdot " + right;
+    return left + " " + right;
 }
 
 std::string LatexFormatter::divide(const std::string &top,

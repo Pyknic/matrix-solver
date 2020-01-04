@@ -29,6 +29,8 @@ public:
 
     bool isConstant() const override;
 
+    bool isZero() const override;
+
     int getColumns() const override;
 
     int getRows() const override;
@@ -36,6 +38,10 @@ public:
     std::set<std::string> findUndefined() override;
 
 private:
+    explicit Product();
+
+    void getDimensions(int& cols, int& rows) const;
+
     typedef std::vector<Symbol*> Factors;
     Factors mFactors;
 };

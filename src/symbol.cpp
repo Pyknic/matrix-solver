@@ -32,3 +32,7 @@ Symbol *Symbol::operator*(Symbol::value_t other) {
 Symbol *Symbol::operator/(Symbol::value_t other) {
     return *this / new Constant{other};
 }
+
+bool Symbol::isScalar() const {
+    return getColumns() == 1 && getRows() == 1;
+}

@@ -55,8 +55,7 @@ Symbol *Constant::operator*(Symbol *other) {
         return this;
     }
 
-    // TODO: Add product class
-    throw InvalidExpression();
+    return *other * this;
 }
 
 Symbol *Constant::operator/(Symbol *other) {
@@ -70,6 +69,7 @@ Symbol *Constant::operator/(Symbol *other) {
         delete other;
         return this;
     }
+
     // TODO: Add fractions class
     throw InvalidExpression();
 }

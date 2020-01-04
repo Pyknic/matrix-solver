@@ -29,6 +29,8 @@ public:
 
     bool isConstant() const override;
 
+    bool isZero() const override;
+
     int getColumns() const override;
 
     int getRows() const override;

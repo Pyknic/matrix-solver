@@ -39,6 +39,10 @@ public:
 
     virtual bool isConstant() const = 0;
 
+    virtual bool isScalar() const;
+
+    virtual bool isZero() const = 0;
+
     virtual int getColumns() const = 0;
 
     virtual int getRows() const = 0;
@@ -50,5 +54,3 @@ protected:
 
     Symbol* assertNotNull(Symbol* other) const;
 };
-
-
