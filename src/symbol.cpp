@@ -36,3 +36,7 @@ Symbol *Symbol::operator/(Symbol::value_t other) {
 bool Symbol::isScalar() const {
     return getColumns() == 1 && getRows() == 1;
 }
+
+Symbol *Symbol::operator-() {
+    return negate();
+}

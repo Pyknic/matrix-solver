@@ -55,3 +55,23 @@ std::string LatexFormatter::power(const std::string &left,
                                   const std::string &right) const {
     return left + "^{" + right + "}";
 }
+
+std::string LatexFormatter::negate(const std::string &unknown) const {
+    return "-" + unknown;
+}
+
+std::string LatexFormatter::matrix(int rows, int cols, const std::vector<std::string> &elements) const {
+    std::string result = "\\left[\\begin{matrix}";
+
+    for (int i = 0; i < rows; i++) {
+        if (i > 0) result += " \\\\ ";
+        for (int j = 0; j < cols; j++) {
+            if (j > 0) result += " & ";
+            int idx = i * cols + j;
+            result += elements[idx];
+        }
+    }
+
+    result += "\\end{matrix}\\right]";
+    return result;
+}

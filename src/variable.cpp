@@ -12,7 +12,7 @@
 #include "invalid-expression.hpp"
 
 Variable::Variable(std::string name)
-    : mName{std::move(name)}, mQuantity{1.0f}, mExponent{1.0f} {}
+    : Symbol{}, mName{std::move(name)}, mQuantity{1.0f}, mExponent{1.0f} {}
 
 Variable::~Variable() = default;
 
@@ -265,13 +265,40 @@ std::set<std::string> Variable::findUndefined() {
 std::string Variable::format(const Formatter &formatter) const {
     Constant quantityConstant {mQuantity};
     Constant exponentConstant {mExponent};
-    return formatter.power(
-        formatter.times(
+
+    std::string inner;
+    if (fabsf(mExponent) < FLT_EPSILON) { // Exponent == 0
+        return formatter.constant(&quantityConstant);
+
+    } else if (fabsf(mExponent - 1.0f) < FLT_EPSILON) {
+        inner = formatter.unknown(mName);
+
+    } else {
+        inner = formatter.power(
+            formatter.unknown(mName),
+            formatter.constant(&exponentConstant)
+        );
+    }
+
+    std::string outer;
+    if (fabsf(mQuantity - 1.0f) < FLT_EPSILON) { // Quantity == 1
+        outer = inner;
+
+    } else if (fabsf(mQuantity) < FLT_EPSILON) { // Quantity == 0
+        Constant zero {0.0f};
+        outer = formatter.constant(&zero);
+
+    } else if (fabsf(mQuantity + 1.0f) < FLT_EPSILON) {
+        outer = formatter.negate(inner);
+
+    } else {
+        outer = formatter.times(
             formatter.constant(&quantityConstant),
-            formatter.unknown(mName)
-        ),
-        formatter.constant(&exponentConstant)
-    );
+            inner
+        );
+    }
+
+    return outer;
 }
 
 bool Variable::isZero() const {

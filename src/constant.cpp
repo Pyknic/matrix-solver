@@ -110,7 +110,7 @@ std::set<std::string> Constant::findUndefined() {
     return std::set<std::string>();
 }
 
-Constant::Constant(Symbol::value_t value) : mValue{value} {}
+Constant::Constant(Symbol::value_t value) : Symbol{}, mValue{value} {}
 
 Constant& Constant::operator=(Symbol::value_t value) {
     mValue = value;

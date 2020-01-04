@@ -35,6 +35,8 @@ public:
 
     virtual Symbol* operator/(value_t other);
 
+    virtual Symbol* operator-();
+
     virtual std::string format(const Formatter& formatter) const = 0;
 
     virtual bool isConstant() const = 0;

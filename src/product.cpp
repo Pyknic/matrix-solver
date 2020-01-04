@@ -8,9 +8,9 @@
 #include "invalid-expression.hpp"
 #include "sum.hpp"
 
-Product::Product() : mFactors{} {}
+Product::Product() : Symbol{}, mFactors{} {}
 
-Product::Product(Symbol *first, Symbol *second) : mFactors{} {
+Product::Product(Symbol *first, Symbol *second) : Symbol{}, mFactors{} {
     mFactors.push_back(first);
     mFactors.push_back(second);
 }

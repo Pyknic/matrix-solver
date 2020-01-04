@@ -6,6 +6,7 @@
 
 #include <string>
 #include <sstream>
+#include <vector>
 
 class Constant;
 
@@ -14,6 +15,8 @@ public:
     virtual ~Formatter() = default;
 
     virtual std::string constant(const Constant *constant) const = 0;
+
+    virtual std::string matrix(int rows, int cols, const std::vector<std::string>& elements) const = 0;
 
     virtual std::string unknown(const std::string &unknown) const = 0;
 
@@ -28,6 +31,8 @@ public:
     virtual std::string divide(const std::string &top, const std::string &bottom) const = 0;
 
     virtual std::string power(const std::string &left, const std::string &right) const = 0;
+
+    virtual std::string negate(const std::string &unknown) const = 0;
 };
 
 
