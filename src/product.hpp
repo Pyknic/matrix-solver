@@ -35,6 +35,10 @@ public:
 
     int getRows() const override;
 
+    int getFactors() const;
+
+    const Symbol* get(int factor) const;
+
     std::set<std::string> findUndefined() override;
 
 private:

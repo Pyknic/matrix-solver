@@ -20,7 +20,21 @@ int main() {
 
     delete expr;
 
-    auto* T = Matrix::square({
+    auto* A = Matrix::square({
+        _("a_x"), _(0.0f),  _(0.0f), _(0.0f),
+        _(0.0f),  _("a_y"), _(0.0f), _(0.0f),
+        _(0.0f),  _(0.0f),  _(1.0f), _(0.0f),
+        _(0.0f),  _(0.0f),  _(0.0f), _(1.0f)
+    });
+
+    auto* O = Matrix::square({
+        _(1.0f), _(0.0f), _(0.0f), -*_("o_x"),
+        _(0.0f), _(1.0f), _(0.0f), -*_("o_y"),
+        _(0.0f), _(0.0f), _(1.0f), _(0.0f),
+        _(0.0f), _(0.0f), _(0.0f), _(1.0f)
+    });
+
+    auto* P = Matrix::square({
         _(1.0f), _(0.0f), _(0.0f), _("p_x"),
         _(0.0f), _(1.0f), _(0.0f), _("p_y"),
         _(0.0f), _(0.0f), _(1.0f), _(0.0f),
@@ -34,16 +48,21 @@ int main() {
         _(0.0f),         _(0.0f),       _(0.0f), _(1.0f)
     });
 
-    auto* TR = *T->copy() * R->copy();
-    auto* RT = *T->copy() * R->copy();
+    auto* S = Matrix::square({
+        _("s"),  _(0.0f), _(0.0f), _(0.0f),
+        _(0.0f), _("s"),  _(0.0f), _(0.0f),
+        _(0.0f), _(0.0f), _(1.0f), _(0.0f),
+        _(0.0f), _(0.0f), _(0.0f), _(1.0f)
+    });
 
-    std::cout << "T*R: " << TR->format(latex) << std::endl;
-    std::cout << "R*T: " << RT->format(latex) << std::endl;
+    //auto* AORSP = *(*(*(*A * O) * R) * S) * P;
+    auto* AORSP = *R * (*O * A);
+    //auto* RT = *T->copy() * R->copy();
 
-    delete T;
-    delete R;
-    delete TR;
-    delete RT;
+    std::cout << "Transform: " << AORSP->format(latex) << std::endl;
+    //std::cout << "R*T: " << RT->format(latex) << std::endl;
+
+    delete AORSP;
 
     return 0;
 }

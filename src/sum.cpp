@@ -5,7 +5,10 @@
 #include <algorithm>
 #include <utility>
 #include "sum.hpp"
+#include "variable.hpp"
+#include "constant.hpp"
 #include "invalid-expression.hpp"
+#include "product.hpp"
 
 Symbol *Sum::copy() const {
     if (mTerms.size() < 2) throw InvalidExpression();
@@ -221,15 +224,41 @@ Sum::~Sum() {
     }
 }
 
+bool Sum::hasMinusSign(const Symbol *symbol) const {
+    if (const auto* constant = dynamic_cast<const Constant*>(symbol)) {
+        return constant->getValue() < 0.0f;
+    } else if (const auto* variable = dynamic_cast<const Variable*>(symbol)) {
+        return variable->getQuantity() < 0.0f;
+    } else if (const auto* product = dynamic_cast<const Product*>(symbol)) {
+        return hasMinusSign(product->get(0));
+    }
+    return false;
+}
+
 std::string Sum::format(const Formatter &formatter) const {
     if (mTerms.size() <= 1) throw InvalidExpression();
 
-    std::string str = formatter.plus(
-        mTerms[0]->format(formatter),
-        mTerms[1]->format(formatter));
+    std::string str;
+    if (hasMinusSign(mTerms[1])) {
+        auto* copy = mTerms[1]->copy()->negate();
+        str = formatter.minus(
+            mTerms[0]->format(formatter),
+            copy->format(formatter));
+        delete copy;
+    } else {
+        str = formatter.plus(
+            mTerms[0]->format(formatter),
+            mTerms[1]->format(formatter));
+    }
 
     for (Terms::size_type i = 2; i < mTerms.size(); i++) {
-        str = formatter.plus(str, mTerms[i]->format(formatter));
+        if (hasMinusSign(mTerms[i])) {
+            auto* copy = mTerms[i]->copy()->negate();
+            str = formatter.minus(str, copy->format(formatter));
+            delete copy;
+        } else {
+            str = formatter.plus(str, mTerms[i]->format(formatter));
+        }
     }
 
     return formatter.paranthesis(str);

@@ -172,7 +172,7 @@ Symbol *Variable::operator*(Symbol *other) {
 
         Symbol* result = new Product(this, other);
         if (fabsf(quantity - 1.0f) >= FLT_EPSILON) {
-            result = *result * new Constant(quantity);
+            result = *new Constant(quantity) * result;
         }
 
         return result;
@@ -270,7 +270,7 @@ std::string Variable::format(const Formatter &formatter) const {
     if (fabsf(mExponent) < FLT_EPSILON) { // Exponent == 0
         return formatter.constant(&quantityConstant);
 
-    } else if (fabsf(mExponent - 1.0f) < FLT_EPSILON) {
+    } else if (fabsf(mExponent - 1.0f) < FLT_EPSILON) { // Exponent == 1
         inner = formatter.unknown(mName);
 
     } else {
@@ -288,8 +288,8 @@ std::string Variable::format(const Formatter &formatter) const {
         Constant zero {0.0f};
         outer = formatter.constant(&zero);
 
-    } else if (fabsf(mQuantity + 1.0f) < FLT_EPSILON) {
-        outer = formatter.negate(inner);
+    } else if (fabsf(mQuantity + 1.0f) < FLT_EPSILON) { // Quantity == -1
+        outer = formatter.paranthesis(formatter.negate(inner));
 
     } else {
         outer = formatter.times(

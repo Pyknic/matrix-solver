@@ -12,7 +12,10 @@ std::string LatexFormatter::constant(const Constant *constant) const {
     std::ostringstream ss;
     ss << constant->getValue();
     std::string s(ss.str());
-    return s;
+
+    if (constant->getValue() < 0.0f) {
+        return paranthesis(s);
+    } else return s;
 
     //return std::to_string(constant->getValue());
 }

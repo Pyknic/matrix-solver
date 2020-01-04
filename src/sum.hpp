@@ -40,6 +40,8 @@ public:
 private:
     void getDimensions(int& cols, int& rows) const;
 
+    bool hasMinusSign(const Symbol* symbol) const;
+
     typedef std::vector<Symbol*> Terms;
     explicit Sum(Terms  terms);
 

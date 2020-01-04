@@ -165,3 +165,11 @@ std::string Product::format(const Formatter &formatter) const {
 
     return str;
 }
+
+const Symbol *Product::get(int factor) const {
+    return mFactors[factor];
+}
+
+int Product::getFactors() const {
+    return mFactors.size();
+}
