@@ -5,20 +5,12 @@
 #include "matrix.hpp"
 #include "helper.hpp"
 #include "latex-formatter.hpp"
+#include "glm-formatter.hpp"
 
 int main() {
-    LatexFormatter latex;
-    std::cout << "Hello, World!" << std::endl;
+    // The matrix below is a model-to-world matrix
 
-    Symbol* expr = new Constant(5);
-    expr = *expr + *((*new Constant(3)) * new Variable("x")) * new Variable("x");
-
-    std::cout << expr->format(latex) << std::endl;
-
-    expr = *expr * expr->copy();
-    std::cout << expr->format(latex) << std::endl;
-
-    delete expr;
+    GlmFormatter toGLM{};
 
     auto* A = Matrix::square({
         _("a_x"), _(0.0f),  _(0.0f), _(0.0f),
@@ -29,7 +21,7 @@ int main() {
 
     auto* O = Matrix::square({
         _(1.0f), _(0.0f), _(0.0f), -*_("o_x"),
-        _(0.0f), _(1.0f), _(0.0f), -*_("o_y"),
+        _(0.0f), _(1.0f), _(0.0f), *_("o_y")-_(1.0f),
         _(0.0f), _(0.0f), _(1.0f), _(0.0f),
         _(0.0f), _(0.0f), _(0.0f), _(1.0f)
     });
@@ -42,27 +34,31 @@ int main() {
     });
 
     auto* R = Matrix::square({
-        _("\\cos(r)"),   _("\\sin(r)"), _(0.0f), _(0.0f),
-        -*_("\\sin(r)"), _("\\cos(r)"), _(0.0f), _(0.0f),
-        _(0.0f),         _(0.0f),       _(1.0f), _(0.0f),
-        _(0.0f),         _(0.0f),       _(0.0f), _(1.0f)
+          _("cosR"), _("sinR"), _(0.0f), _(0.0f),
+        -*_("sinR"), _("cosR"), _(0.0f), _(0.0f),
+            _(0.0f),   _(0.0f), _(1.0f), _(0.0f),
+            _(0.0f),   _(0.0f), _(0.0f), _(1.0f)
     });
 
     auto* S = Matrix::square({
-        _("s"),  _(0.0f), _(0.0f), _(0.0f),
-        _(0.0f), _("s"),  _(0.0f), _(0.0f),
+        _("s_x"), _(0.0f), _(0.0f), _(0.0f),
+        _(0.0f), _("s_y"), _(0.0f), _(0.0f),
         _(0.0f), _(0.0f), _(1.0f), _(0.0f),
         _(0.0f), _(0.0f), _(0.0f), _(1.0f)
     });
 
-    //auto* AORSP = *(*(*(*A * O) * R) * S) * P;
-    auto* AORSP = *R * (*O * A);
-    //auto* RT = *T->copy() * R->copy();
+    auto* M = Matrix::square({
+        _(1),  _(0), _(0), _(0),
+        _(0), _(-1), _(0), _(0),
+        _(0),  _(0), _(1), _(0),
+        _(0),  _(0), _(0), _(1)
+    });
 
-    std::cout << "Transform: " << AORSP->format(latex) << std::endl;
-    //std::cout << "R*T: " << RT->format(latex) << std::endl;
+    auto* modelToWorld = *P * (*M * (*S * (*R * (*A * O))));
 
-    delete AORSP;
+    std::cout << "mWorldMatrix = " << modelToWorld->format(toGLM) << std::endl;
+
+    delete modelToWorld;
 
     return 0;
 }

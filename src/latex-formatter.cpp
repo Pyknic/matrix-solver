@@ -5,6 +5,7 @@
 //
 
 #include "constant.hpp"
+#include <sstream>
 
 LatexFormatter::~LatexFormatter() = default;
 
