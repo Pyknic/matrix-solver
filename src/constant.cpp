@@ -141,4 +141,9 @@ std::string Constant::format(const Formatter &formatter) const {
     return formatter.constant(this);
 }
 
+Symbol *Constant::replace(const std::function<bool(const Symbol *)> &predicate,
+                          const std::function<Symbol*(Symbol*)> &mapper) {
+    return this;
+}
+
 Constant::~Constant() = default;

@@ -263,3 +263,14 @@ std::string Sum::format(const Formatter &formatter) const {
 
     return formatter.paranthesis(str);
 }
+
+Symbol *Sum::replace(const std::function<bool(const Symbol *)> &predicate,
+                     const std::function<Symbol *(Symbol *)> &mapper) {
+    for (auto& term : mTerms) {
+        if (predicate(term)) {
+            term = mapper(term);
+        }
+    }
+
+    return this;
+}

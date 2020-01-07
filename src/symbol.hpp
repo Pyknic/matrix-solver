@@ -6,6 +6,7 @@
 
 #include <set>
 #include <string>
+#include <functional>
 #include <map>
 #include "formatter.hpp"
 
@@ -36,6 +37,10 @@ public:
     virtual Symbol* operator/(value_t other);
 
     virtual Symbol* operator-();
+
+    virtual Symbol* replace(
+        const std::function<bool(const Symbol*)>& predicate,
+        const std::function<Symbol*(Symbol*)>& mapper) = 0;
 
     virtual std::string format(const Formatter& formatter) const = 0;
 

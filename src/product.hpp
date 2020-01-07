@@ -25,6 +25,9 @@ public:
 
     Symbol *operator/(Symbol *other) override;
 
+    Symbol *replace(const std::function<bool(const Symbol *)> &predicate,
+                    const std::function<Symbol *(Symbol *)> &mapper) override;
+
     std::string format(const Formatter &formatter) const override;
 
     bool isConstant() const override;

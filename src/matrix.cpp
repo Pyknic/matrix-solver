@@ -257,3 +257,18 @@ Matrix* Matrix::square(std::initializer_list<Symbol*> elements) {
     }
     return matrix;
 }
+
+Symbol *Matrix::replace(const std::function<bool(const Symbol*)> &predicate,
+                        const std::function<Symbol*(Symbol*)> &mapper) {
+
+    for (int i = 0; i < mRows; i++) {
+        for (int j = 0; j < mCols; j++) {
+            const int idx = i * mCols + j;
+            if (predicate(mElements[idx])) {
+                mElements[idx] = mapper(mElements[idx]);
+            }
+        }
+    }
+
+    return this;
+}

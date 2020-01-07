@@ -304,3 +304,8 @@ std::string Variable::format(const Formatter &formatter) const {
 bool Variable::isZero() const {
     return mQuantity == 0;
 }
+
+Symbol *Variable::replace(const std::function<bool(const Symbol *)> &predicate,
+                          const std::function<Symbol *(Symbol *)> &mapper) {
+    return this;
+}

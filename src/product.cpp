@@ -173,3 +173,15 @@ const Symbol *Product::get(int factor) const {
 int Product::getFactors() const {
     return mFactors.size();
 }
+
+Symbol *Product::replace(const std::function<bool(const Symbol *)> &predicate,
+                         const std::function<Symbol *(Symbol *)> &mapper) {
+
+    for (auto& factor : mFactors) {
+        if (predicate(factor)) {
+            factor = mapper(factor);
+        }
+    }
+
+    return this;
+}

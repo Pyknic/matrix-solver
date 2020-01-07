@@ -7,7 +7,7 @@
 #include "latex-formatter.hpp"
 #include "glm-formatter.hpp"
 
-int main() {
+int main(int argc, char **argv) {
     // The matrix below is a model-to-world matrix
 
     GlmFormatter toGLM{};
