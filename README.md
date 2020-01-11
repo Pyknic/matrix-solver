@@ -14,7 +14,7 @@ git clone --recurse-submodules git@github.com:Pyknic/matrix-solver.git
 The most simple use-case is as a regular calculator:
 
 ```shell
-echo "answer=1+1;" | cmake-build-debug/matrix_solver_cpp -f answer
+echo "answer=1+1;" | solve -f answer
 ```
 
 The code above prints out `2` to the standard output.
@@ -23,7 +23,7 @@ The code above prints out `2` to the standard output.
 Another use-case is to simplify symbolic expressions with multiple unknowns.
 
 ```shell
-echo "answer=5*x+10*y-3*x;" | cmake-build-debug/matrix_solver_cpp -f answer
+echo "answer=5*x+10*y-3*x;" | solve -f answer
 ```
 
 The code above prints out `(10*y+2*x)` to the standard output.
@@ -32,7 +32,7 @@ The code above prints out `(10*y+2*x)` to the standard output.
 Of course it can also handle matrix multiplications.
 
 ```shell
-echo "A=[2,0;0,3]; B=[a,b;c,d]; answer=A*B;" | cmake-build-debug/matrix_solver_cpp -f answer 
+echo "A=[2,0;0,3]; B=[a,b;c,d]; answer=A*B;" | solve -f answer 
 ```
 
 This prints `[2*a,2*b;3*c,3*d]` to the standard output.
@@ -40,7 +40,7 @@ This prints `[2*a,2*b;3*c,3*d]` to the standard output.
 ### Pretty Printing
 The output can be formatted automatically by adding the `--pretty` flag.
 ```shell
-echo "A=[2,0;0,3]; B=[a,b;c,d]; answer=A*B;" | cmake-build-debug/matrix_solver_cpp --pretty
+echo "A=[2,0;0,3]; B=[a,b;c,d]; answer=A*B;" | solve --pretty
 ```
 
 This outputs:
