@@ -121,6 +121,15 @@ Symbol *Matrix::operator*(Symbol *other) {
     }
 
     if (auto* otherMatrix = dynamic_cast<Matrix*>(other)) {
+        if (otherMatrix->getRows() != mCols) {
+            throw std::invalid_argument( // TODO: better exception handling
+                "Can't compute matrix multiplication between [" +
+                std::to_string(mRows) + ", " +
+                std::to_string(mCols) + "] and [" +
+                std::to_string(otherMatrix->mRows) + ", " +
+                std::to_string(otherMatrix->mCols) + "] matrices.");
+        }
+
         auto* result = new Matrix(mRows, other->getColumns());
 
         for (int i = 0; i < mRows; i++) {

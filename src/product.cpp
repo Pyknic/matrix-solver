@@ -29,6 +29,26 @@ Symbol *Product::copy() const {
     return copy;
 }
 
+Symbol* Product::copyRange(int beginIncl, int endIncl) const {
+    if (beginIncl < 0 || beginIncl > endIncl || endIncl >= mFactors.size()) {
+        throw std::invalid_argument(
+            "Can't copy range [" + std::to_string(beginIncl) +
+            ", " + std::to_string(endIncl) + "] of product with " +
+            std::to_string(mFactors.size()) + " factors.");
+    }
+
+    if (beginIncl == endIncl) {
+        return mFactors[beginIncl]->copy();
+    }
+
+    auto* copy = new Product{};
+    for (int i = beginIncl; i <= endIncl; i++) {
+        copy->mFactors.push_back(mFactors[i]->copy());
+    }
+
+    return copy;
+}
+
 Symbol *Product::negate() {
     bool hasConstantFactor = false;
     bool hasVariableFactor = false;
@@ -172,6 +192,20 @@ const Symbol *Product::get(int factor) const {
 
 int Product::getFactors() const {
     return mFactors.size();
+}
+
+void Product::setFactor(int index, Symbol* factor) {
+    if (index == mFactors.size()) {
+        mFactors.push_back(factor);
+    } else {
+        delete mFactors[index];
+        mFactors[index] = factor;
+    }
+}
+
+void Product::deleteFactor(int index) {
+    delete mFactors[index];
+    mFactors.erase(mFactors.begin() + index);
 }
 
 Symbol *Product::replace(const std::function<bool(const Symbol *)> &predicate,

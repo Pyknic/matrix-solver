@@ -15,6 +15,8 @@ public:
 
     Symbol *copy() const override;
 
+    Symbol* copyRange(int beginIncl, int endIncl) const;
+
     Symbol *negate() override;
 
     Symbol *operator+(Symbol *other) override;
@@ -39,6 +41,10 @@ public:
     int getRows() const override;
 
     int getFactors() const;
+
+    void setFactor(int index, Symbol* factor);
+
+    void deleteFactor(int index);
 
     const Symbol* get(int factor) const;
 

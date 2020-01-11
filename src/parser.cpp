@@ -10,6 +10,7 @@
 #include "variable.hpp"
 #include "matrix.hpp"
 #include "constant.hpp"
+#include "optimizer.hpp"
 
 Parser::Parser() : mDefines{}, mLine{0}, mCol{0}, mDone{false} {}
 
@@ -54,6 +55,11 @@ bool Parser::parse(std::istream &input) {
                 }
             );
         }
+    }
+
+    Optimizer optimizer {};
+    for (auto& pair : mDefines) {
+        pair.second = optimizer.optimize(pair.second);
     }
 
     return true; // Parsing was successful
