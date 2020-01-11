@@ -25,19 +25,21 @@ public:
 
     void set(int row, int col, Symbol* element);
 
-    Symbol *copy() const override;
+    Symbol* copy() const override;
 
-    Symbol *negate() override;
+    Symbol* negate() override;
 
-    Symbol *operator+(Symbol *other) override;
+    Matrix* transpose();
 
-    Symbol *operator-(Symbol *other) override;
+    Symbol* operator+(Symbol* other) override;
 
-    Symbol *operator*(Symbol *other) override;
+    Symbol* operator-(Symbol* other) override;
 
-    Symbol *operator/(Symbol *other) override;
+    Symbol* operator*(Symbol* other) override;
 
-    Symbol *replace(const std::function<bool(const Symbol *)> &predicate,
+    Symbol* operator/(Symbol* other) override;
+
+    Symbol* replace(const std::function<bool(const Symbol *)> &predicate,
                     const std::function<Symbol *(Symbol *)> &mapper) override;
 
     std::string format(const Formatter &formatter) const override;

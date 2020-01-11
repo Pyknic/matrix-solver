@@ -33,8 +33,6 @@ private:
 
     bool nextNonWhitespace(std::istream& input, char& c);
 
-    std::string expectName(std::istream& input, char& terminatedBy);
-
     std::string expectName(std::istream &input, char &terminatedBy, char firstLetter);
 
     Symbol* expectOneSymbol(std::istream &input, char &terminatedBy);

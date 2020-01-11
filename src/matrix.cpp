@@ -58,6 +58,18 @@ Symbol *Matrix::negate() {
     return this;
 }
 
+Matrix* Matrix::transpose() {
+    auto* transposed = new Matrix{mCols, mRows};
+    for (int i = 0; i < mRows; i++) {
+        for (int j = i; j < mCols; j++) {
+            const int idx = i * mCols + j;
+            transposed->set(j, i, mElements[idx]->copy());
+        }
+    }
+    delete this;
+    return transposed;
+}
+
 Symbol *Matrix::operator+(Symbol *other) {
     if (other->isScalar()) {
         for (int i = 0; i < mRows; i++) {

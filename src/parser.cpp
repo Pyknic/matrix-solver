@@ -110,17 +110,6 @@ bool Parser::nextNonWhitespace(std::istream &input, char &c) {
     return false;
 }
 
-std::string Parser::expectName(std::istream &input, char& terminatedBy) {
-    char c;
-    if (!nextNonWhitespace(input, c))
-        throw unexpectedEndOfFile();
-
-    switch (c) {
-        CASE_ALPHABETIC return expectName(input, terminatedBy, c);
-        default: throw unexpectedCharacter(c);
-    }
-}
-
 std::string Parser::expectName(std::istream &input, char &terminatedBy, char firstLetter) {
     std::stringstream name{};
     name.put(firstLetter);
@@ -224,6 +213,14 @@ Symbol *Parser::expectSymbolsUntilAny(std::istream &input,
                 Symbol* right = expectOneSymbol(input, terminatedBy);
                 symbol = *symbol / right;
                 continue;
+            }
+            case '\'': {
+                if (auto* leftMatrix = dynamic_cast<Matrix*>(symbol)) {
+                    symbol = leftMatrix->transpose();
+                    break;
+                } else {
+                    throw unexpectedCharacter('\'');
+                }
             }
             default: throw unexpectedCharacter(terminatedBy);
         }
