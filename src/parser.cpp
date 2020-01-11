@@ -340,7 +340,8 @@ Constant *Parser::expectConstant(std::istream &input, char &terminatedBy, char z
 }
 
 float Parser::expectDecimalPart(std::istream &input, char &terminatedBy) {
-    std::stringstream number{"0."};
+    std::stringstream number{};
+    number << "0.";
 
     char c;
     while (nextChar(input, c)) {
@@ -360,7 +361,8 @@ float Parser::expectDecimalPart(std::istream &input, char &terminatedBy) {
                 break;
             }
         }
-        return std::stof(number.str());
+        std::string result = number.str();
+        return std::stof(result);
     }
 
     throw unexpectedEndOfFile();
