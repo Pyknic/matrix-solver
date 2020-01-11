@@ -44,6 +44,8 @@ public:
 
     int getRows() const override;
 
+    const std::string& getName() const;
+
     std::set<std::string> findUndefined() override;
 
 private:

@@ -16,6 +16,10 @@ Variable::Variable(std::string name)
 
 Variable::~Variable() = default;
 
+const std::string &Variable::getName() const {
+    return mName;
+}
+
 void Variable::setQuantity(Symbol::value_t quantity) {
     mQuantity = quantity;
 }

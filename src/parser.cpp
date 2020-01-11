@@ -21,17 +21,39 @@ Parser::~Parser() {
 
 bool Parser::parse(std::istream &input) {
     while (!mDone) {
-        char nameTerminated;
-        auto name = expectName(input, nameTerminated);
-        if (nameTerminated != '=')
-            throw unexpectedCharacter(nameTerminated);
+        char c;
+        if (nextNonWhitespace(input, c)) {
+            char nameTerminated;
+            auto name = expectName(input, nameTerminated, c);
 
-        if (mDefines.find(name) != mDefines.end()) {
-            throw parseError("Variable '" + name + "' already defined.");
+            if (nameTerminated != '=')
+                throw unexpectedCharacter(nameTerminated);
+
+            if (mDefines.find(name) != mDefines.end()) {
+                throw parseError("Variable '" + name + "' already defined.");
+            }
+
+            auto* symbol = expectSymbolsUntil(input, ';');
+            mDefines[name] = symbol;
+        } else {
+            mDone = true;
         }
+    }
 
-        auto* symbol = expectSymbolsUntil(input, ';');
-        mDefines[name] = symbol;
+    for (auto& pair : mDefines) {
+        for (auto& inner : mDefines) {
+            if (inner.first == pair.first) continue;
+            inner.second = inner.second->replace(
+                [pair](const Symbol* symbol) -> bool {
+                    if (auto* variable = dynamic_cast<const Variable*>(symbol)) {
+                        return variable->getName() == pair.first;
+                    } else return false;
+                }, [pair](Symbol* symbol) -> Symbol* {
+                    delete symbol;
+                    return pair.second->copy();
+                }
+            );
+        }
     }
 
     return true; // Parsing was successful
@@ -305,7 +327,7 @@ Constant *Parser::expectConstant(std::istream &input, char &terminatedBy, char z
                 continue;
             }
             CASE_WHITESPACE {
-                if (nextNonWhitespace(input, terminatedBy))
+                if (!nextNonWhitespace(input, terminatedBy))
                     throw unexpectedEndOfFile();
                 break;
             }
