@@ -32,6 +32,8 @@ public:
     virtual std::string power(const std::string &left, const std::string &right) const = 0;
 
     virtual std::string negate(const std::string &unknown) const = 0;
+
+    virtual std::string assign(const std::string& name, const std::string& value) const = 0;
 };
 
 

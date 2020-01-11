@@ -79,3 +79,8 @@ std::string LatexFormatter::matrix(int rows, int cols, const std::vector<std::st
     result += "\\end{matrix}\\right]";
     return result;
 }
+
+std::string LatexFormatter::assign(const std::string& name,
+                                   const std::string& value) const {
+    throw std::invalid_argument("Not implemented yet.");
+}

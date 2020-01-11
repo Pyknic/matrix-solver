@@ -9,6 +9,7 @@
 #include <functional>
 #include <vector>
 #include <map>
+#include "formatter.hpp"
 
 class Symbol;
 class Matrix;
@@ -24,6 +25,8 @@ public:
     bool parse(std::istream& input);
 
     Symbol* get(const std::string& key) const;
+
+    std::string format(const Formatter& formatter) const;
 
 private:
     std::map<std::string, Symbol*> mDefines;

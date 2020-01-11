@@ -81,3 +81,8 @@ GlmFormatter::power(const std::string &left, const std::string &right) const {
 std::string GlmFormatter::negate(const std::string &unknown) const {
     return "-" + unknown;
 }
+
+std::string
+GlmFormatter::assign(const std::string& name, const std::string& value) const {
+    throw std::invalid_argument("Not implemented yet.");
+}

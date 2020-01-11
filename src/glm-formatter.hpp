@@ -33,4 +33,6 @@ public:
     power(const std::string &left, const std::string &right) const override;
 
     std::string negate(const std::string &unknown) const override;
+
+    std::string assign(const std::string& name, const std::string& value) const override;
 };

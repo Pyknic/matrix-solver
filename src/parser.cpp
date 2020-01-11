@@ -20,6 +20,16 @@ Parser::~Parser() {
     }
 }
 
+std::string Parser::format(const Formatter& formatter) const {
+    std::ostringstream ss;
+
+    for (auto& define : mDefines) {
+        ss << formatter.assign(define.first, define.second->format(formatter));
+    }
+
+    return ss.str();
+}
+
 bool Parser::parse(std::istream &input) {
     while (!mDone) {
         char c;
